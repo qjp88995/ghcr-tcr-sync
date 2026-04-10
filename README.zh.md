@@ -75,6 +75,17 @@ ghcr.io/{owner}/{package}:{tag}  →  {TCR_REGISTRY}/{TCR_NAMESPACE}/{package}:{
 
 无需额外配置——任何向此服务发送 Webhook 的仓库都会自动同步镜像。
 
+## 目标 Registry 兼容性
+
+尽管变量名带有 `TCR_` 前缀，同步逻辑本身与 Registry 无关。任何支持 Docker Registry v2 协议的 Registry 均可作为目标：
+
+| Registry | `TCR_REGISTRY` 示例 |
+|----------|---------------------|
+| 腾讯云 TCR | `ccr.ccs.tencentyun.com` |
+| 阿里云 ACR | `registry.cn-hangzhou.aliyuncs.com` |
+| 自建 Harbor | `harbor.example.com` |
+| Docker Hub | `registry-1.docker.io` |
+
 ## 从 GitHub Actions 触发同步
 
 若镜像通过 `GITHUB_TOKEN` 在 GitHub Actions 中推送，`registry_package` Webhook 可能不会触发。此时可在 workflow 中手动触发同步：

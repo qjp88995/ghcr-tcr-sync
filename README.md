@@ -75,6 +75,17 @@ ghcr.io/{owner}/{package}:{tag}  →  {TCR_REGISTRY}/{TCR_NAMESPACE}/{package}:{
 
 No additional configuration needed — any repository that sends a webhook to this server will have its images synced automatically.
 
+## Target Registry Compatibility
+
+Despite the `TCR_` prefix in variable names, the sync logic is registry-agnostic. Any registry that supports the Docker Registry v2 protocol works as a target:
+
+| Registry | `TCR_REGISTRY` example |
+|----------|------------------------|
+| Tencent Cloud TCR | `ccr.ccs.tencentyun.com` |
+| Alibaba Cloud ACR | `registry.cn-hangzhou.aliyuncs.com` |
+| Self-hosted Harbor | `harbor.example.com` |
+| Docker Hub | `registry-1.docker.io` |
+
 ## Triggering Sync from GitHub Actions
 
 If your images are pushed via `GITHUB_TOKEN` in GitHub Actions, the `registry_package` webhook may not fire. In that case, trigger the sync manually from your workflow:
