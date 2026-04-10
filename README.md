@@ -24,7 +24,15 @@ cp .env.example .env
 # Edit .env with your credentials
 ```
 
-**2. Build and start**
+**2. Start**
+
+Use the pre-built image from GitHub Container Registry:
+
+```bash
+docker compose up -d
+```
+
+Or build locally:
 
 ```bash
 docker compose up -d --build

@@ -1,5 +1,6 @@
 services:
   webhook:
+    image: ghcr.io/qjp88995/ghcr-tcr-sync:latest
     build: .
     restart: unless-stopped
     volumes:
