@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+_on_failure() {
+  echo "[$(date)] Sync failed: ${SOURCE:-} → ${TARGET:-}"
+  if [[ -x /scripts/on-failure.sh ]]; then
+    SYNC_SOURCE="${SOURCE:-}" \
+    SYNC_TARGET="${TARGET:-}" \
+    SYNC_PACKAGE="${PACKAGE:-}" \
+    SYNC_TAG="${TAG:-}" \
+    SYNC_OWNER="${OWNER:-}" \
+    /scripts/on-failure.sh
+  fi
+}
+trap '_on_failure' ERR
+
 ACTION=$(echo "$HOOK_PAYLOAD" | jq -r '.action // ""')
 if [[ "$ACTION" != "published" && "$ACTION" != "updated" ]]; then
   echo "[$(date)] Action is '$ACTION', skipping."

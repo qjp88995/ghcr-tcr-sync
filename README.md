@@ -65,6 +65,25 @@ For each repository you want to sync, go to:
 | `TCR_USER` | TCR username |
 | `TCR_PASSWORD` | TCR password |
 
+## Failure Notifications
+
+When a sync fails, `sync.sh` will execute `/scripts/on-failure.sh` if the file exists and is executable. Copy the example to get started:
+
+```bash
+cp scripts/on-failure.sh.example scripts/on-failure.sh
+chmod +x scripts/on-failure.sh
+```
+
+The following environment variables are available inside the script:
+
+| Variable | Description |
+|----------|-------------|
+| `SYNC_SOURCE` | Source image (e.g. `docker://ghcr.io/owner/image:tag`) |
+| `SYNC_TARGET` | Target image |
+| `SYNC_PACKAGE` | Image name |
+| `SYNC_TAG` | Image tag |
+| `SYNC_OWNER` | Source image owner |
+
 ## Image Mapping
 
 Source and target image names are derived automatically from the webhook payload:

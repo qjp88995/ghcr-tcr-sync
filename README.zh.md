@@ -65,6 +65,25 @@ docker compose up -d --build
 | `TCR_USER` | TCR 用户名 |
 | `TCR_PASSWORD` | TCR 密码 |
 
+## 失败通知
+
+同步失败时，`sync.sh` 会自动执行 `/scripts/on-failure.sh`（如果该文件存在且有可执行权限）。复制示例文件开始使用：
+
+```bash
+cp scripts/on-failure.sh.example scripts/on-failure.sh
+chmod +x scripts/on-failure.sh
+```
+
+脚本内可使用以下环境变量：
+
+| 变量 | 说明 |
+|------|------|
+| `SYNC_SOURCE` | 源镜像（如 `docker://ghcr.io/owner/image:tag`） |
+| `SYNC_TARGET` | 目标镜像 |
+| `SYNC_PACKAGE` | 镜像名称 |
+| `SYNC_TAG` | 镜像 tag |
+| `SYNC_OWNER` | 源镜像 owner |
+
 ## 镜像映射
 
 镜像名称自动从 Webhook payload 中解析：

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Copy this file to on-failure.sh and make it executable:
+#   cp on-failure.sh.example on-failure.sh && chmod +x on-failure.sh
+#
+# Available environment variables:
+#   SYNC_SOURCE   — source image (e.g. docker://ghcr.io/owner/image:tag)
+#   SYNC_TARGET   — target image (e.g. docker://registry.example.com/ns/image:tag)
+#   SYNC_PACKAGE  — image name
+#   SYNC_TAG      — image tag
+#   SYNC_OWNER    — source image owner
+
+# Example: send a notification via a generic webhook (e.g. Feishu, DingTalk, Slack)
+# curl -sf -X POST "${NOTIFY_WEBHOOK_URL}" \
+#   -H "Content-Type: application/json" \
+#   -d "{\"text\": \"ghcr-tcr-sync failed: ${SYNC_SOURCE} → ${SYNC_TARGET}\"}"
+
+# Example: Telegram
+# curl -sf "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+#   -d "chat_id=${TELEGRAM_CHAT_ID}" \
+#   -d "text=ghcr-tcr-sync failed: ${SYNC_PACKAGE}:${SYNC_TAG}"
