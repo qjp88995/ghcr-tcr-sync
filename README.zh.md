@@ -2,13 +2,13 @@
 
 [English](README.md)
 
-通过 Webhook 将容器镜像从 GitHub Container Registry (ghcr.io) 同步到腾讯云 TCR。
+通过 Webhook 将容器镜像从 GitHub Container Registry (ghcr.io) 同步到任意兼容 Docker Registry v2 协议的镜像仓库。
 
 ## 工作原理
 
 1. 镜像推送到 ghcr.io 后，GitHub 触发 `registry_package` Webhook 事件
 2. 中转服务器上的 Webhook 服务接收事件并验证 HMAC-SHA256 签名
-3. `skopeo` 直接在两个 Registry 之间复制镜像，无需本地拉取
+3. `skopeo` 直接在源与目标 Registry 之间复制镜像，无需本地拉取
 
 ## 前置条件
 
@@ -60,7 +60,7 @@ docker compose up -d --build
 | `WEBHOOK_SECRET` | 用于 HMAC 验证的共享密钥 |
 | `GHCR_USER` | GitHub 用户名 |
 | `GHCR_TOKEN` | 具有 `read:packages` 权限的 GitHub PAT |
-| `TCR_REGISTRY` | TCR Registry 地址（如 `ccr.ccs.tencentyun.com`） |
+| `TCR_REGISTRY` | 目标 Registry 地址（如 `ccr.ccs.tencentyun.com`、`registry.cn-hangzhou.aliyuncs.com`） |
 | `TCR_NAMESPACE` | TCR 命名空间，不设置时回退为源镜像的 owner |
 | `TCR_USER` | TCR 用户名 |
 | `TCR_PASSWORD` | TCR 密码 |
@@ -91,7 +91,7 @@ ghcr.io/{owner}/{package}:{tag}  →  {TCR_REGISTRY}/{TCR_NAMESPACE}/{package}:{
 若镜像通过 `GITHUB_TOKEN` 在 GitHub Actions 中推送，`registry_package` Webhook 可能不会触发。此时可在 workflow 中手动触发同步：
 
 ```yaml
-- name: Trigger TCR sync
+- name: Trigger registry sync
   env:
     WEBHOOK_SECRET: ${{ secrets.SYNC_WEBHOOK_SECRET }}
   run: |

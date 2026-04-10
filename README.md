@@ -2,13 +2,13 @@
 
 [中文](README.zh.md)
 
-Syncs container images from GitHub Container Registry (ghcr.io) to Tencent Cloud TCR via webhook.
+Syncs container images from GitHub Container Registry (ghcr.io) to any Docker Registry v2 compatible registry via webhook.
 
 ## How It Works
 
 1. GitHub fires a `registry_package` webhook event when an image is pushed to ghcr.io
 2. The webhook server on your relay server receives the event and verifies the HMAC-SHA256 signature
-3. `skopeo` copies the image directly from ghcr.io to TCR without pulling it locally
+3. `skopeo` copies the image directly from ghcr.io to the target registry without pulling it locally
 
 ## Prerequisites
 
@@ -60,7 +60,7 @@ For each repository you want to sync, go to:
 | `WEBHOOK_SECRET` | Shared secret for HMAC verification |
 | `GHCR_USER` | GitHub username |
 | `GHCR_TOKEN` | GitHub PAT with `read:packages` permission |
-| `TCR_REGISTRY` | TCR registry host (e.g. `ccr.ccs.tencentyun.com`) |
+| `TCR_REGISTRY` | Target registry host (e.g. `ccr.ccs.tencentyun.com`, `registry.cn-hangzhou.aliyuncs.com`) |
 | `TCR_NAMESPACE` | TCR namespace. Falls back to the source image owner if not set |
 | `TCR_USER` | TCR username |
 | `TCR_PASSWORD` | TCR password |
@@ -91,7 +91,7 @@ Despite the `TCR_` prefix in variable names, the sync logic is registry-agnostic
 If your images are pushed via `GITHUB_TOKEN` in GitHub Actions, the `registry_package` webhook may not fire. In that case, trigger the sync manually from your workflow:
 
 ```yaml
-- name: Trigger TCR sync
+- name: Trigger registry sync
   env:
     WEBHOOK_SECRET: ${{ secrets.SYNC_WEBHOOK_SECRET }}
   run: |
