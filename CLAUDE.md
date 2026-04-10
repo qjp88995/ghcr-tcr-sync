@@ -1,6 +1,6 @@
 # ghcr-tcr-sync
 
-Webhook server that syncs container images from ghcr.io to Tencent Cloud TCR.
+Webhook server that syncs container images from ghcr.io to any Docker Registry v2 compatible registry.
 
 ## Stack
 
@@ -19,6 +19,11 @@ scripts/
   sync.sh           # Sync logic: parse payload → skopeo copy
 .env.example        # Environment variable reference
 ```
+
+## Documentation
+
+- README has multiple language versions: `README.md` (English) and `README.zh.md` (Chinese)
+- When updating either README, always update the other to keep content in sync
 
 ## Key Behaviors
 
