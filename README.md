@@ -1,5 +1,7 @@
 # ghcr-tcr-sync
 
+[中文](README.zh.md)
+
 Syncs container images from GitHub Container Registry (ghcr.io) to Tencent Cloud TCR via webhook.
 
 ## How It Works
