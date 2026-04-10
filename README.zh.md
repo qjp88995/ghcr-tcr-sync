@@ -70,8 +70,15 @@ docker compose up -d --build
 同步失败时，`sync.sh` 会自动执行 `/scripts/on-failure.sh`（如果该文件存在且有可执行权限）。复制示例文件开始使用：
 
 ```bash
-cp scripts/on-failure.sh.example scripts/on-failure.sh
-chmod +x scripts/on-failure.sh
+cp scripts/on-failure.sh.example on-failure.sh
+chmod +x on-failure.sh
+```
+
+然后在 `docker-compose.yml` 中挂载到容器：
+
+```yaml
+volumes:
+  - ./on-failure.sh:/scripts/on-failure.sh
 ```
 
 脚本内可使用以下环境变量：

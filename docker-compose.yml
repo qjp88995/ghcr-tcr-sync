@@ -3,9 +3,6 @@ services:
     image: ghcr.io/qjp88995/ghcr-tcr-sync:latest
     build: .
     restart: unless-stopped
-    volumes:
-      - ./hooks:/etc/webhook
-      - ./scripts:/scripts
     env_file: .env
     labels:
       - traefik.enable=true

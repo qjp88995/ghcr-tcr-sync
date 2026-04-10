@@ -70,8 +70,15 @@ For each repository you want to sync, go to:
 When a sync fails, `sync.sh` will execute `/scripts/on-failure.sh` if the file exists and is executable. Copy the example to get started:
 
 ```bash
-cp scripts/on-failure.sh.example scripts/on-failure.sh
-chmod +x scripts/on-failure.sh
+cp scripts/on-failure.sh.example on-failure.sh
+chmod +x on-failure.sh
+```
+
+Then mount it into the container in `docker-compose.yml`:
+
+```yaml
+volumes:
+  - ./on-failure.sh:/scripts/on-failure.sh
 ```
 
 The following environment variables are available inside the script:
