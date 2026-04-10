@@ -22,7 +22,11 @@ fi
 
 OWNER=$(echo "$HOOK_PAYLOAD"   | jq -r '.registry_package.owner.login' | tr '[:upper:]' '[:lower:]')
 PACKAGE=$(echo "$HOOK_PAYLOAD" | jq -r '.registry_package.name')
-TAG=$(echo "$HOOK_PAYLOAD"     | jq -r '.registry_package.package_version.container_metadata.tag.name')
+TAG=$(echo "$HOOK_PAYLOAD"     | jq -r '.registry_package.package_version.container_metadata.tag.name // .registry_package.package_version.name // ""')
+if [[ -z "$TAG" || "$TAG" == "null" ]]; then
+  echo "[$(date)] No tag found in payload, skipping."
+  exit 0
+fi
 
 NAMESPACE="${TCR_NAMESPACE:-$OWNER}"
 
